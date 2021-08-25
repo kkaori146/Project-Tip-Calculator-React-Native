@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components/native';
 
 const Page = styled.SafeAreaView`
@@ -61,11 +61,13 @@ export default () => {
 
     if(nBill) {
         setTip (nBill * (pct/100));
-    } else {
-      alert("Inform the Bill");
-    }
-    
+    }  
   }
+
+  useEffect(() => {
+    calc();
+  }, [pct]);
+
   return (
     <Page>
       <HeaderText>Tip Calculator</HeaderText>
