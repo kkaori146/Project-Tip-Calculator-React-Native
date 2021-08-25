@@ -43,18 +43,26 @@ const ResultItem = styled.Text`
   margin-bottom: 30px;
 `;
 
+const PctArea = styled.View`
+  flex-direction: row;
+  margin: 20px;
+`;
+
+const PctItem = styled.Button``;
+
 export default () => {
 
   const [bill, setBill] = useState('');
   const [tip, setTip] = useState(0);
+  const [pct, setPct] = useState(10);
 
   const calc = () => {
     let nBill = parseFloat(bill);
 
     if(nBill) {
-        setTip (nBill * 0.1);
+        setTip (nBill * (pct/100));
     } else {
-      alert("Inform");
+      alert("Inform the Bill");
     }
     
   }
@@ -68,14 +76,22 @@ export default () => {
         value={bill}
         onChangeText={n=>setBill(n)}
       />
-      <CalcButton title = "Calculate" onPress={calc}/>
+      <PctArea>
+        <PctItem title = "5%" onPress= {() => setPct(5)} />
+        <PctItem title = "10%" onPress= {() => setPct(10)} />
+        <PctItem title = "15%" onPress= {() => setPct(15)} />
+        <PctItem title = "20%" onPress= {() => setPct(20)} />
+      </PctArea>
+
+
+      <CalcButton title = {`Calculate ${pct}%`} onPress={calc}/>
       {tip > 0 &&
         <ResultArea>
             <ResultItemTitle>Bill without Tip</ResultItemTitle>
             <ResultItem>$ {parseFloat(bill).toFixed(2)}</ResultItem>
 
             <ResultItemTitle>Tip</ResultItemTitle>
-            <ResultItem>$ {tip.toFixed(2)} (10%)</ResultItem>
+            <ResultItem>$ {tip.toFixed(2)} ({pct}%)</ResultItem>
             <ResultItemTitle>Total</ResultItemTitle>
             <ResultItem>$ {(parseFloat(bill) + tip).toFixed(2)}</ResultItem>
         </ResultArea>
